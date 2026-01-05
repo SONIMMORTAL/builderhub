@@ -457,6 +457,55 @@
       transform: rotateY(188deg) rotateX(2deg) !important;
     }
 
+    /* Mobile: Disable 3D transforms to prevent text mirroring */
+    @media (max-width: 767px) {
+      .flip-card-container {
+        perspective: none;
+      }
+
+      .flip-card-inner {
+        transform-style: flat;
+      }
+
+      .flip-card-container:hover .flip-card-inner:not(.flip-card-flipped) {
+        transform: none;
+      }
+
+      .flip-card-front {
+        position: relative;
+        transform: none;
+      }
+
+      .flip-card-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .flip-card-flipped .flip-card-front {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .flip-card-flipped .flip-card-back {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .flip-card-flipped {
+        transform: none !important;
+      }
+
+      .flip-card-flipped:hover {
+        transform: none !important;
+      }
+    }
+
     /* Cobe Globe Styles */
     .cobe-globe-container {
       width: 100%;

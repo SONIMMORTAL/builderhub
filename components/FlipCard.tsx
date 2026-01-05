@@ -47,15 +47,10 @@ export const FlipCard: React.FC<FlipCardProps> = ({ profile, onClick }) => {
     return (
         <div
             className="flip-card-container group"
-            style={{ perspective: '1200px' }}
         >
             <div
-                className={`flip-card-inner relative w-full h-[520px] transition-transform duration-700 ease-out ${isFlipped ? 'flip-card-flipped' : ''
+                className={`flip-card-inner relative w-full h-[520px] ${isFlipped ? 'flip-card-flipped' : ''
                     }`}
-                style={{
-                    transformStyle: 'preserve-3d',
-                    transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                }}
             >
                 {/* Front Side */}
                 <div
@@ -63,8 +58,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({ profile, onClick }) => {
                     onMouseMove={handleMouseMove}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className={`flip-card-front absolute inset-0 rounded-2xl overflow-hidden ${isFlipped ? 'pointer-events-none' : ''}`}
-                    style={{ backfaceVisibility: 'hidden' }}
+                    className={`flip-card-front absolute inset-0 rounded-2xl overflow-hidden transition-opacity duration-300 ${isFlipped ? 'pointer-events-none' : ''}`}
                 >
                     <div className="relative h-full flex flex-col rounded-2xl overflow-hidden bg-dark-950">
                         {/* Full Background Image */}
@@ -134,18 +128,10 @@ export const FlipCard: React.FC<FlipCardProps> = ({ profile, onClick }) => {
 
                 {/* Back Side */}
                 <div
-                    className={`flip-card-back absolute inset-0 rounded-2xl overflow-hidden ${!isFlipped ? 'pointer-events-none' : ''}`}
-                    style={{
-                        backfaceVisibility: 'hidden',
-                        WebkitBackfaceVisibility: 'hidden',
-                        transform: 'rotateY(180deg)',
-                    }}
+                    className={`flip-card-back absolute inset-0 rounded-2xl overflow-hidden transition-opacity duration-300 ${!isFlipped ? 'pointer-events-none' : ''}`}
                 >
                     <div
                         className="relative h-full flex flex-col glass-premium rounded-2xl"
-                        style={{
-                            transformStyle: 'flat',
-                        }}
                     >
                         {/* Gradient background */}
                         <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/10 via-transparent to-accent-blue/10" />

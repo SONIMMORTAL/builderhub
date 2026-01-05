@@ -14,6 +14,16 @@ export const BuilderCarousel: React.FC<BuilderCarouselProps> = ({ profiles, onSe
     // We strictly use the "extended" length for the active index to allow infinite scrolling
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    // Mobile detection to disable problematic 3D transforms
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     // Create an extended list ensuring we have at least ~10 items for smooth infinite recycling
     // We append unique IDs to duplicates to ensure stable keys
     const extendedProfiles = useMemo(() => {
@@ -100,12 +110,25 @@ export const BuilderCarousel: React.FC<BuilderCarouselProps> = ({ profiles, onSe
         const absOffset = Math.abs(offset);
         const isActive = offset === 0;
 
-        // Fan Spacing configuration
+        // On mobile, show only the active card to avoid transform issues
+        if (isMobile) {
+            return {
+                x: offset * 300,
+                y: 0,
+                scale: isActive ? 1 : 0.85,
+                rotation: 0, // No rotation on mobile to prevent text mirroring
+                zIndex: isActive ? 20 : 10,
+                opacity: isActive ? 1 : 0.3,
+                blur: isActive ? 0 : 6
+            };
+        }
+
+        // Fan Spacing configuration - Desktop only
         const xOffset = offset * 260; // Wide spread
         const yOffset = Math.abs(offset) * 35; // Arch height
 
         const scale = 1 - absOffset * 0.1;
-        const rotation = offset * 8; // Gentle rotation
+        const rotation = offset * 8; // Gentle rotation - only on desktop
 
         return {
             x: xOffset,
@@ -131,7 +154,7 @@ export const BuilderCarousel: React.FC<BuilderCarouselProps> = ({ profiles, onSe
                                 x: style.x,
                                 y: style.y,
                                 scale: style.scale,
-                                rotateZ: style.rotation,
+                                rotateZ: isMobile ? 0 : style.rotation, // No rotation on mobile
                                 zIndex: style.zIndex,
                                 opacity: style.opacity,
                                 filter: `blur(${style.blur}px)`,
@@ -143,7 +166,7 @@ export const BuilderCarousel: React.FC<BuilderCarouselProps> = ({ profiles, onSe
                                 mass: 1
                             }}
                             style={{
-                                transformStyle: 'preserve-3d',
+                                transformStyle: isMobile ? 'flat' : 'preserve-3d', // Flat on mobile
                                 transformOrigin: '50% 100%', // Pivot from bottom center
                             }}
                         >
