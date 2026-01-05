@@ -31,15 +31,26 @@ Strategic Growth: Beyond coding, I operate as a growth partner for businesses, o
   {
     id: '1',
     name: 'Samuel McFarlane',
-    role: 'Builder',
-    bio: 'Building innovative solutions and making an impact.',
+    role: 'AI/ML Engineer & Full-Stack Developer',
+    bio: 'AI/ML Engineer specializing in Rust backend development, machine learning systems, and automation workflows. Building intelligent systems from first principles.',
+    fullBio: `Samuel McFarlane grew up in Crown Heights, Brooklyn, and spent part of his youth in the South Bronx, developing an early understanding of how diverse communities adapt and thrive. Coming from a bilingual Panamanian household, he learned to navigate cultural diversity while fostering curiosity and discipline. His early fascination with systems and problem-solving evolved into a deep interest in how technology could improve real-world experiences.
+
+Before joining Pursuit, Samuel worked as a freelance developer and technical consultant, delivering end-to-end solutions for small businesses. His focus on automation, AI integration, and intelligent system design gave him a strong foundation in both backend logic and frontend interaction.
+
+Technical Focus:
+Samuel's work spans Rust backend development, machine learning systems, and automation workflows. Notable projects include momentum scoring algorithms for cybersecurity startup analysis, property investment intelligence platforms, and AI-powered streaming architectures with real-time subtitle translation. A builder at heart, he prefers constructing systems from first principles—currently exploring custom large language model development and mobile-optimized local LLM deployments for offline coding assistance.
+
+Through Pursuit's AI Native Program, Samuel continues refining his expertise in machine learning, prompt engineering, and cloud-native architectures. Beyond technical work, he maintains interests in VR gaming and property investment analysis—reflecting a philosophy of continuous learning and hands-on experimentation.`,
     avatarUrl: '/samuel-mcfarlane.jpg',
-    skills: ['React', 'Node.js', 'TypeScript'],
+    skills: ['Rust', 'Python', 'ML/AI', 'TypeScript', 'Cloud Architecture'],
     projects: [
-      { name: 'HVAC Hub', url: 'https://hvac-hub.vercel.app/', description: 'Smart HVAC management platform.' }
+      { name: 'AI Streaming Architecture', url: 'https://github.com/SamMcfarlane-pursuit', description: 'Real-time subtitle translation with AI-powered streaming.' },
+      { name: 'Auction Intel', url: 'https://auction-intel.vercel.app/', description: 'Property investment intelligence platform.' }
     ],
-    socials: [],
-    featured: false,
+    socials: [
+      { platform: 'github', url: 'https://github.com/SamMcfarlane-pursuit' }
+    ],
+    featured: true,
   },
   {
     id: '2',
@@ -108,8 +119,12 @@ export const SKILL_DEFINITIONS: Record<string, string> = {
   'Kubernetes': 'An open-source container orchestration system for automating application deployment, scaling, and management.',
   'PostgreSQL': 'A powerful, open source object-relational database system.',
   'Redis': 'An in-memory data structure store, used as a database, cache, and message broker.',
-  'Product': 'Product Management: The practice of strategically driving the development, market launch, and continual support and improvement of a company’s products.',
+  'Product': "Product Management: The practice of strategically driving the development, market launch, and continual support and improvement of a company's products.",
   'Strategy': 'The formulation and implementation of major goals and initiatives taken by a company.',
   'Leadership': 'The action of leading a group of people or an organization.',
-  'Innovation': 'The practical implementation of ideas that result in the introduction of new goods or services.'
+  'Innovation': 'The practical implementation of ideas that result in the introduction of new goods or services.',
+  'Rust': 'A systems programming language focused on safety, speed, and concurrency.',
+  'Python': 'A versatile programming language known for its readability and extensive ecosystem in data science and AI.',
+  'ML/AI': 'Machine Learning and Artificial Intelligence: Building systems that learn from data and make intelligent decisions.',
+  'Cloud Architecture': 'Designing and managing cloud computing systems for scalability, reliability, and performance.',
 };
