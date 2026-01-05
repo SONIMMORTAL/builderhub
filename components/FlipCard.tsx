@@ -137,10 +137,16 @@ export const FlipCard: React.FC<FlipCardProps> = ({ profile, onClick }) => {
                     className={`flip-card-back absolute inset-0 rounded-2xl overflow-hidden ${!isFlipped ? 'pointer-events-none' : ''}`}
                     style={{
                         backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
                     }}
                 >
-                    <div className="relative h-full flex flex-col glass-premium rounded-2xl">
+                    <div
+                        className="relative h-full flex flex-col glass-premium rounded-2xl"
+                        style={{
+                            transformStyle: 'flat',
+                        }}
+                    >
                         {/* Gradient background */}
                         <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/10 via-transparent to-accent-blue/10" />
 
