@@ -62,15 +62,51 @@ interface AuthSignUpProps {
     onSuccess: (provider: 'google' | 'github') => void;
 }
 
+// Lazy import auth to avoid breaking when Firebase not configured
+let useAuth: any = null;
+try {
+    useAuth = require('../context/AuthContext').useAuth;
+} catch {
+    useAuth = null;
+}
+
 export function AuthSignUp({ onBack, onSuccess }: AuthSignUpProps) {
     const [loading, setLoading] = React.useState<'google' | 'github' | null>(null);
+    const [error, setError] = React.useState<string | null>(null);
+
+    // Try to use Firebase auth if available
+    const auth = useAuth ? useAuth() : null;
+    const isFirebaseConfigured = auth?.isConfigured ?? false;
 
     const handleLogin = async (provider: 'google' | 'github') => {
         setLoading(provider);
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        onSuccess(provider);
-        setLoading(null);
+        setError(null);
+
+        try {
+            if (isFirebaseConfigured) {
+                // Use real Firebase auth
+                if (provider === 'google') {
+                    await auth.signInWithGoogle();
+                } else {
+                    await auth.signInWithGithub();
+                }
+
+                // If we have a user after auth, use their real data
+                if (auth.user) {
+                    onSuccess(provider);
+                } else if (auth.error) {
+                    setError(auth.error);
+                }
+            } else {
+                // Fallback to simulated auth
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                onSuccess(provider);
+            }
+        } catch (err: any) {
+            setError(err.message || 'Authentication failed');
+        } finally {
+            setLoading(null);
+        }
     };
 
     return (

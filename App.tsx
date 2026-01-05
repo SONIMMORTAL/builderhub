@@ -21,8 +21,13 @@ import { AuthSignUp } from './components/AuthSignUp';
 import { Particles } from './components/ui/particles';
 import { MatrixIntro } from './components/MatrixIntro';
 import { ScrollToTop } from './components/ScrollToTop';
+import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeToggle } from './components/ThemeToggle';
+import { SoundToggle } from './components/SoundToggle';
+import { useSoundEffects } from './hooks/useSoundEffects';
 
-function App() {
+function AppContent() {
   const [showIntro, setShowIntro] = useState(true);
   const [profiles, setProfiles] = useState<BuilderProfile[]>(INITIAL_PROFILES);
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
@@ -30,10 +35,12 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [prefilledData, setPrefilledData] = useState<{ name?: string; avatarUrl?: string; role?: string } | undefined>(undefined);
+  const { play, isMuted, toggleMute } = useSoundEffects();
 
   const handleAddProfile = (newProfile: BuilderProfile) => {
     setProfiles([newProfile, ...profiles]);
     setModalType(ModalType.NONE);
+    play('success');
   };
 
   const handleCardClick = (profile: BuilderProfile) => {
@@ -42,8 +49,14 @@ function App() {
   };
 
   const closeModal = () => {
+    play('close');
     setModalType(ModalType.NONE);
     setSelectedProfile(null);
+  };
+
+  const openModal = (type: ModalType) => {
+    play('open');
+    setModalType(type);
   };
 
   const filteredProfiles = profiles.filter(p =>
@@ -114,14 +127,18 @@ function App() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <AnimatedShinyButton onClick={() => setModalType(ModalType.AUTH_SELECTION)}>
+              <AnimatedShinyButton onClick={() => openModal(ModalType.AUTH_SELECTION)}>
                 <Plus className="w-4 h-4" />
                 Add Profile
               </AnimatedShinyButton>
+              <SoundToggle isMuted={isMuted} onToggle={toggleMute} />
+              <ThemeToggle />
             </div>
 
-            <div className="md:hidden">
-              <Button variant="ghost" onClick={() => setModalType(ModalType.AUTH_SELECTION)}>
+            <div className="md:hidden flex items-center gap-2">
+              <SoundToggle isMuted={isMuted} onToggle={toggleMute} />
+              <ThemeToggle />
+              <Button variant="ghost" onClick={() => openModal(ModalType.AUTH_SELECTION)}>
                 <Plus className="w-5 h-5" />
               </Button>
             </div>
@@ -299,7 +316,7 @@ function App() {
                 Browse Builders
               </button>
               <button
-                onClick={() => setModalType(ModalType.AUTH_SELECTION)}
+                onClick={() => openModal(ModalType.AUTH_SELECTION)}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Add Your Profile
@@ -784,6 +801,17 @@ function App() {
         }
       </motion.div>
     </>
+  );
+}
+
+// Main App component with providers
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
